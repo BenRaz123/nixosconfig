@@ -42,14 +42,17 @@
         {
           system,
           hostname,
+          extraPkgsSettings ? { },
           extraModules ? [ ],
         }:
         lib.nixosSystem rec {
           specialArgs = { inherit inputs system hostname; };
-          pkgs = import nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-          };
+          pkgs = import nixpkgs (
+            lib.attrsets.recursiveUpdate {
+              inherit system;
+              config.allowUnfree = true;
+            } extraPkgsSettings
+          );
           modules = [
             ./hosts/${hostname}
             ./hosts/${hostname}/hardware-configuration.nix
