@@ -1,0 +1,3 @@
+[submodule "home/ben/general"]
+	path = home/ben/general
+	url = https://github.com/benraz123/home-manager-config
