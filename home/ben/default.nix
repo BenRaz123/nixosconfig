@@ -2,6 +2,8 @@
   pkgs,
   config,
   lib,
+  inputs,
+  system,
   ...
 }:
 let
@@ -38,8 +40,8 @@ rec {
   fonts.fontconfig.enable = true;
 
   imports = [
-    ./general/home.nix
     ./modules
+    inputs.main-hm-configuration.homeModules.ben
   ];
 
   programs.ghostty = {

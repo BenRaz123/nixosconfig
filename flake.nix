@@ -9,6 +9,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    main-hm-configuration = {
+      url = "github:benraz123/home-manager-config";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixvim.follows = "nixvim";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     apple-silicon = {
       url = "github:nix-community/nixos-apple-silicon";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,6 +32,7 @@
       nixpkgs,
       home-manager,
       apple-silicon,
+      main-hm-configuration,
       ...
     }:
     let
@@ -47,6 +55,7 @@
             ./hosts/${hostname}/hardware-configuration.nix
             ./modules/common.nix
             ./modules/laptopBattery.nix
+
             home-manager.nixosModules.home-manager
             {
               home-manager = {
