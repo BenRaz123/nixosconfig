@@ -82,6 +82,14 @@
             apple-silicon.nixosModules.apple-silicon-support
           ];
         };
+
+        pluto = mkSys {
+          system = "x86_64-linux";
+          hostname = "pluto";
+          extraPkgsSettings = {
+            config.allowInsecurePredicate = pkg: builtins.elem (lib.getName pkg) [ "broadcom-sta" ];
+          };
+        };
       };
     };
 }
