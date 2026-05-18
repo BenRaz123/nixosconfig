@@ -13,6 +13,13 @@
     batteryName = "macsmc-battery";
   };
 
+  boot.kernelPatches = [
+    {
+      name = "apple-use-pmp";
+      patch = ./pmp.patch;
+    }
+  ];
+
   #NOTE: this part was not included in the actual build that failed to produce the boot object
   hardware.asahi.peripheralFirmwareDirectory = ./asahi-fw;
 
