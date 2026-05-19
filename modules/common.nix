@@ -2,7 +2,7 @@
   pkgs,
   hostname,
   ...
-} @ args:
+}@args:
 let
   inherit (pkgs) lib;
 in
@@ -39,4 +39,39 @@ in
     envfs.enable = true;
     printing.enable = true;
   };
+
+  networking.networkmanager.enable = true;
+
+  services = {
+    gnome.gnome-keyring.enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+    openssh.enable = true;
+  };
+
+  programs = {
+    sway = {
+      enable = true;
+      wrapperFeatures.gtk = true;
+    };
+    gnupg.agent = {
+      enable = true;
+      pinentryPackage = pkgs.pinentry-gnome3;
+    };
+  };
+
+  environment.systemPackages = with pkgs; [
+    zathura
+    chromium
+    gnupg
+    coreutils
+    git
+    home-manager
+    mako
+    neovim
+    sway
+    wget
+    wl-clipboard
+    (mpv.override { scripts = [ mpvScripts.mpris ]; })
+  ];
 }

@@ -13,20 +13,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
   boot.initrd.kernelModules = [ "wl" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
-
-  # Set your time zone.
-  time.timeZone = "America/New_York";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -77,32 +65,6 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
-  #TODO: move to /modules/common.nix
-  programs = {
-    sway = {
-      enable = true;
-      wrapperFeatures.gtk = true;
-    };
-    gnupg.agent = {
-      enable = true;
-      pinentryPackage = pkgs.pinentry-gnome3;
-    };
-  };
-
-  environment.systemPackages = with pkgs; [
-    zathura
-    chromium
-    gnupg
-    coreutils
-    git
-    home-manager
-    mako
-    neovim
-    sway
-    wget
-    wl-clipboard
-  ];
 
   system.stateVersion = "25.11"; # Did you read the comment?
 
