@@ -27,6 +27,9 @@ in
           font-family: "${font.name}" !IMPORTANT;
           border-radius: 0 !IMPORTANT;
         }
+        textarea, textarea * {
+          font-family: "monospace" !IMPORTANT;
+        }
       ''}";
     };
   };
