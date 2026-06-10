@@ -8,11 +8,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779108522,
-        "narHash": "sha256-j3nAJ6WzTLE6bXDOgQ7BeXKHP1BBEf5vLmp9lFwGef0=",
+        "lastModified": 1779698645,
+        "narHash": "sha256-stdabStuiiwzrNMXMr8ZWZXPOlEIiss9AUEpYF2vavk=",
         "owner": "nix-community",
         "repo": "nixos-apple-silicon",
-        "rev": "380d1cc7c8b07ab72ffadf9896748c0aaccd12a3",
+        "rev": "f96c6b94d4261526a3911f28aea7ca5033bcae0a",
         "type": "github"
       },
       "original": {
@@ -97,7 +97,9 @@
     },
     "main-hm-configuration": {
       "inputs": {
-        "flake-utils": "flake-utils",
+        "flake-utils": [
+          "flake-utils"
+        ],
         "home-manager": [
           "home-manager"
         ],
@@ -109,11 +111,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779028999,
-        "narHash": "sha256-LfZ3cR8SwRqsdVgVgbX3AYGldxZOgy1oAip/obgySkQ=",
+        "lastModified": 1781030119,
+        "narHash": "sha256-DXWzPYqwkLOBcdM/+aqNc+UNv/cpDuPtFt46hQg8a6w=",
         "owner": "benraz123",
         "repo": "home-manager-config",
-        "rev": "2c7ce4dc67b59f78d00023fef0cb3f507aa781e7",
+        "rev": "ce41ee78e2e8e39782531cf8eb53e5d9b6a56f94",
         "type": "github"
       },
       "original": {
@@ -135,6 +137,21 @@
         "owner": "nixos",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-patcher": {
+      "locked": {
+        "lastModified": 1779142267,
+        "narHash": "sha256-ozaE7fp0HQ6MCVKz09p2mwSrt8cwpswYOBQc1Oa2Wk4=",
+        "owner": "gepbird",
+        "repo": "nixpkgs-patcher",
+        "rev": "1035997b647799694e4ac1cf217e7ee1c050bce0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gepbird",
+        "repo": "nixpkgs-patcher",
         "type": "github"
       }
     },
@@ -163,9 +180,11 @@
     "root": {
       "inputs": {
         "apple-silicon": "apple-silicon",
+        "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "main-hm-configuration": "main-hm-configuration",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-patcher": "nixpkgs-patcher",
         "nixvim": "nixvim"
       }
     },

@@ -9,13 +9,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    main-hm-configuration = {
-      url = "github:benraz123/home-manager-config";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixvim.follows = "nixvim";
-      inputs.home-manager.follows = "home-manager";
-    };
-
     apple-silicon = {
       url = "github:nix-community/nixos-apple-silicon";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,39 +18,60 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+    };
+
+    main-hm-configuration = {
+      url = "github:benraz123/home-manager-config";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixvim.follows = "nixvim";
+      inputs.home-manager.follows = "home-manager";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
+    nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
   };
 
   outputs =
     inputs@{
-      nixpkgs,
-      home-manager,
+      flake-utils,
       apple-silicon,
-      main-hm-configuration,
+      home-manager,
+      nixpkgs,
+      nixpkgs-patcher,
       ...
     }:
     let
-      inherit (nixpkgs) lib;
-
       mkSys =
         {
           system,
           hostname,
           extraPkgsSettings ? { },
           extraModules ? [ ],
+		  extraPatches ? [],
         }:
-        lib.nixosSystem rec {
+        nixpkgs-patcher.lib.nixosSystem rec {
+          nixpkgsPatcher.nixpkgs = nixpkgs;
+          nixpkgsPatcher.patches =
+            pkgs: with pkgs; [
+              (fetchurl {
+                name = "add-ensure-classes.patch";
+                url = "https://github.com/NixOS/nixpkgs/pull/524127.diff";
+                hash = "sha256-aDw7MiilKYr4bskhe8f1rzRTn3SamjgAt04t9XQtneU="; # rebuild, wait for nix to fail and give you the hash, then put it here
+              })
+            ] ++ extraPatches;
           specialArgs = { inherit inputs system hostname; };
-          pkgs = import nixpkgs (
-            lib.attrsets.recursiveUpdate {
-              inherit system;
-              config.allowUnfree = true;
-            } extraPkgsSettings
-          );
           modules = [
             ./hosts/${hostname}
             ./hosts/${hostname}/hardware-configuration.nix
             ./modules/common.nix
             ./modules/laptopBattery.nix
+            ./modules/flatpak.nix
+            ./modules/musicSync.nix
+
+			extraPkgsSettings
 
             home-manager.nixosModules.home-manager
             {
@@ -71,6 +85,8 @@
           ]
           ++ extraModules;
         };
+
+      inherit (nixpkgs) lib;
     in
     {
       # I decided to use space based names for my computers
@@ -91,5 +107,14 @@
           };
         };
       };
-    };
+    }
+    // flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        formatter = pkgs.nixfmt-tree;
+      }
+    );
 }

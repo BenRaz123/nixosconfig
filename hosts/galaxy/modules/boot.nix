@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+  imports = [ ./dp-alt-mode-patches ];
   boot = {
     kernelPatches = [
       {

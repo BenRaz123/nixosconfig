@@ -12,4 +12,6 @@
     normal.pkg
     mono.pkg
   ];
+
+  config.fonts.fontconfig.enable = true;
 }

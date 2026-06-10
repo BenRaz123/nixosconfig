@@ -10,6 +10,7 @@
 {
   imports = [
     ./modules
+    ../../modules/printing/extraOpts.nix
   ];
 
   laptopBattery = {

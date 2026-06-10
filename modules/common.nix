@@ -7,9 +7,26 @@ let
   inherit (pkgs) lib;
 in
 {
+  xdg.portal.config.sway.default = lib.mkForce "wlr";
+  xdg.portal.config.sway."org.freedesktop.portal.OpenURI.OpenURI" = "wlr";
+
+  imports = [
+    ./printing
+  ];
+
+  hardware.bluetooth = {
+    enable = true;
+    input = {
+      General = {
+        UserspaceHID = true;
+      };
+    };
+  };
+
   # it doesnt work
   #services.automatic-timezoned.enable = true;
   time.timeZone = lib.mkDefault "America/New_York";
+
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -61,6 +78,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    fractal
     zathura
     chromium
     gnupg
