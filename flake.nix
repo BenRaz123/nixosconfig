@@ -50,18 +50,21 @@
           hostname,
           extraPkgsSettings ? { },
           extraModules ? [ ],
-		  extraPatches ? [],
+          extraPatches ? [ ],
         }:
         nixpkgs-patcher.lib.nixosSystem rec {
           nixpkgsPatcher.nixpkgs = nixpkgs;
           nixpkgsPatcher.patches =
-            pkgs: with pkgs; [
+            pkgs:
+            with pkgs;
+            [
               (fetchurl {
                 name = "add-ensure-classes.patch";
                 url = "https://github.com/NixOS/nixpkgs/pull/524127.diff";
                 hash = "sha256-aDw7MiilKYr4bskhe8f1rzRTn3SamjgAt04t9XQtneU="; # rebuild, wait for nix to fail and give you the hash, then put it here
               })
-            ] ++ extraPatches;
+            ]
+            ++ extraPatches;
           specialArgs = { inherit inputs system hostname; };
           modules = [
             ./hosts/${hostname}
@@ -71,7 +74,7 @@
             ./modules/flatpak.nix
             ./modules/musicSync.nix
 
-			extraPkgsSettings
+            extraPkgsSettings
 
             home-manager.nixosModules.home-manager
             {
