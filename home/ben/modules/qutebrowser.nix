@@ -35,6 +35,7 @@ in
     settings = rec {
       url.default_page = "https://google.com";
       url.start_pages = [ url.default_page ];
+      qt.force_platformtheme = "gtk3";
       fonts.default_family = "${font.name} Light";
       fonts.default_size = "13pt";
       fonts.web.family.fixed = "${config.sysFonts.mono.name}";
