@@ -111,11 +111,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781030119,
-        "narHash": "sha256-DXWzPYqwkLOBcdM/+aqNc+UNv/cpDuPtFt46hQg8a6w=",
+        "lastModified": 1781442905,
+        "narHash": "sha256-WBhePC5NGLOCbE7mWl5HC+dGecfMzbB7CefijEA1IeY=",
         "owner": "benraz123",
         "repo": "home-manager-config",
-        "rev": "ce41ee78e2e8e39782531cf8eb53e5d9b6a56f94",
+        "rev": "1950ce869eecb2652bf26179f8be1157e7823037",
         "type": "github"
       },
       "original": {
