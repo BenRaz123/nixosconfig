@@ -2,7 +2,7 @@
   imports = [
     ./apps.nix
     ./bluetooth.nix
-    ./darkman.nix
+    ./colorctl.nix
     ./functionKeys.nix
     ./general.nix
     ./keys.nix

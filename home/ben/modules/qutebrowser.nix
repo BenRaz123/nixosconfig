@@ -31,6 +31,7 @@ in
       noogle = "https://noogle.dev/q/?term={}";
       osopt = "https://search.nixos.org/options?channel=unstable&query={}";
       pkgs = "https://search.nixos.org/packages?channel=unstable&query={}";
+      hm = "https://home-manager-options.extranix.com/?release=master&query={}";
     };
     settings = rec {
       url.default_page = "https://google.com";

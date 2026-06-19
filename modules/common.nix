@@ -10,6 +10,29 @@ in
   xdg.portal.config.sway.default = lib.mkForce "wlr";
   xdg.portal.config.sway."org.freedesktop.portal.OpenURI.OpenURI" = "wlr";
 
+  virtualisation.docker = {
+    # Consider disabling the system wide Docker daemon
+    enable = false;
+
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+      # Optionally customize rootless Docker daemon settings
+      daemon.settings = {
+        dns = [
+          "1.1.1.1"
+          "8.8.8.8"
+        ];
+        registry-mirrors = [ "https://mirror.gcr.io" ];
+      };
+    };
+  };
+
+  services.kmscon = {
+    enable = true;
+    extraOptions = "--no-mouse";
+  };
+
   imports = [
     ./printing
   ];
@@ -26,6 +49,7 @@ in
   # it doesnt work
   #services.automatic-timezoned.enable = true;
   time.timeZone = lib.mkDefault "America/New_York";
+  environment.sessionVariables.TZDIR = "/etc/zoneinfo";
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -42,6 +66,8 @@ in
     isNormalUser = true;
     extraGroups = [
       "wheel"
+      "scanner"
+      "lp"
     ];
   };
 
@@ -78,6 +104,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    prismlauncher
     fractal
     zathura
     chromium

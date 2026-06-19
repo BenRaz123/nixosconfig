@@ -61,7 +61,7 @@
               (fetchurl {
                 name = "add-ensure-classes.patch";
                 url = "https://github.com/NixOS/nixpkgs/pull/524127.diff";
-                hash = "sha256-aDw7MiilKYr4bskhe8f1rzRTn3SamjgAt04t9XQtneU="; # rebuild, wait for nix to fail and give you the hash, then put it here
+                hash = "sha256-3n1i2rBm5qygoOkLNzihIJ0uYR6QdTLPKcukEJVl7BQ=";
               })
             ]
             ++ extraPatches;

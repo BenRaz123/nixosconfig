@@ -111,11 +111,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781442905,
-        "narHash": "sha256-WBhePC5NGLOCbE7mWl5HC+dGecfMzbB7CefijEA1IeY=",
+        "lastModified": 1781892854,
+        "narHash": "sha256-F1GD/QivDtn7/Asw7I+VxWHYoV7bXUNXOVk2pS8dv44=",
         "owner": "benraz123",
         "repo": "home-manager-config",
-        "rev": "1950ce869eecb2652bf26179f8be1157e7823037",
+        "rev": "6fdbede19d5ffc91e457603a5dea722b42c8540a",
         "type": "github"
       },
       "original": {
@@ -142,11 +142,11 @@
     },
     "nixpkgs-patcher": {
       "locked": {
-        "lastModified": 1779142267,
-        "narHash": "sha256-ozaE7fp0HQ6MCVKz09p2mwSrt8cwpswYOBQc1Oa2Wk4=",
+        "lastModified": 1781789965,
+        "narHash": "sha256-ZRlWPq2Qms6KbesJrj7cUe2GN7s8BZISfp9ZbrCi2x0=",
         "owner": "gepbird",
         "repo": "nixpkgs-patcher",
-        "rev": "1035997b647799694e4ac1cf217e7ee1c050bce0",
+        "rev": "d2abed2b94b7955e05b4e2e8a9b8ac45597ecf94",
         "type": "github"
       },
       "original": {
