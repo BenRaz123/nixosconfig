@@ -95,35 +95,6 @@
         "type": "github"
       }
     },
-    "main-hm-configuration": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "home-manager": [
-          "home-manager"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "nixvim": [
-          "nixvim"
-        ]
-      },
-      "locked": {
-        "lastModified": 1781892854,
-        "narHash": "sha256-F1GD/QivDtn7/Asw7I+VxWHYoV7bXUNXOVk2pS8dv44=",
-        "owner": "benraz123",
-        "repo": "home-manager-config",
-        "rev": "6fdbede19d5ffc91e457603a5dea722b42c8540a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "benraz123",
-        "repo": "home-manager-config",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1778869304,
@@ -182,7 +153,6 @@
         "apple-silicon": "apple-silicon",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
-        "main-hm-configuration": "main-hm-configuration",
         "nixpkgs": "nixpkgs",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nixvim": "nixvim"

@@ -1,0 +1,81 @@
+{
+  config,
+  pkgs,
+  lib,
+  osConfig ? null,
+  inputs ? null,
+  ...
+}:
+let
+  nixvim =
+    if (inputs ? nixvim) then
+      inputs.nixvim
+    else
+      import (fetchGit {
+        url = "https://github.com/nix-community/nixvim";
+        ref = if config.settings.VERSION != "unstable" then "nixos-${config.settings.VERSION}" else "main";
+      });
+in
+{
+  imports = [
+    nixvim.homeModules.nixvim
+    ./settings
+    ./programs
+  ];
+
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Ice";
+    size = 20;
+  };
+
+  home.username = lib.mkDefault config.settings.USER;
+  home.homeDirectory = lib.mkDefault "/home/${config.home.username}";
+
+  home.stateVersion = config.settings.VERSION;
+
+  home.packages =
+    with pkgs;
+    [
+      chromium
+      fish
+      gnupg
+      maestral
+      nixfmt
+      pinentry-all
+      qutebrowser
+      tmux
+    ]
+    ++ [ config.programs.password-store.package ];
+
+  home.sessionVariables =
+    let
+      getChain =
+        obj: props:
+        if props == [ ] then
+          obj
+        else
+          let
+            prop = builtins.head props;
+            rest = builtins.tail props;
+            obj' = obj.${prop} or null;
+          in
+          if obj' == null then null else getChain obj' rest;
+
+      osTZDIR = getChain osConfig [
+        "environment"
+        "sessionVariables"
+        "TZDIR"
+      ];
+    in
+    {
+      inherit (config.settings)
+        TZ
+        ;
+      MANPAGER = "nvim +Man!";
+      TZDIR = if osTZDIR != null then osTZDIR else "/usr/share/zoneinfo";
+      EDITOR = "nvim";
+      X = 5;
+    };
+}
