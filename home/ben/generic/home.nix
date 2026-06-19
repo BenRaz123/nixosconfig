@@ -23,13 +23,6 @@ in
     ./programs
   ];
 
-  home.pointerCursor = {
-    gtk.enable = true;
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Ice";
-    size = 20;
-  };
-
   home.username = lib.mkDefault config.settings.USER;
   home.homeDirectory = lib.mkDefault "/home/${config.home.username}";
 
@@ -38,12 +31,10 @@ in
   home.packages =
     with pkgs;
     [
-      chromium
       fish
       gnupg
       maestral
       nixfmt
-      pinentry-all
       qutebrowser
       tmux
     ]

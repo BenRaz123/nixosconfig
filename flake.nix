@@ -102,12 +102,6 @@
           };
         };
       };
-
-      homeConfigurations.ben = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs { };
-        extraSpecialArgs = { inherit inputs; };
-        modules = [ ./home/ben/generic/home.nix ];
-      };
     }
     // flake-utils.lib.eachDefaultSystem (
       system:
@@ -116,6 +110,12 @@
       in
       {
         formatter = pkgs.nixfmt-tree;
+
+        packages.homeConfigurations.ben = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = { inherit inputs; };
+          modules = [ ./home/ben/generic/home.nix ];
+        };
       }
     );
 }

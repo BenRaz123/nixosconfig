@@ -1,6 +1,7 @@
 {
   imports = [
     ./bemenu.nix
+    ./cursor.nix
     ./darkman.nix
     ./ghostty.nix
     ./gtk.nix
