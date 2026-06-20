@@ -36,6 +36,34 @@
       ...
     }:
     let
+      patches = (
+        pkgs: with pkgs; [
+          (fetchurl {
+            name = "add-ensure-classes.patch";
+            url = "https://github.com/NixOS/nixpkgs/pull/524127.diff";
+            hash = "sha256-3n1i2rBm5qygoOkLNzihIJ0uYR6QdTLPKcukEJVl7BQ=";
+          })
+        ]
+      );
+
+      mkPatched =
+        {
+          system,
+          extraPatches ? [ ],
+        }:
+        let
+          patches = patches ++ extraPatches;
+          patchedNixpkgs = nixpkgs-patcher.lib.patchNixpkgs {
+            inherit
+              inputs
+              system
+              patches
+              nixpkgs
+              ;
+          };
+        in
+        import patchedNixpkgs { inherit system; };
+
       mkSys =
         {
           system,
@@ -44,20 +72,18 @@
           extraModules ? [ ],
           extraPatches ? [ ],
         }:
+        let
+          pkgs = mkPatched { inherit system extraPatches; };
+        in
         nixpkgs-patcher.lib.nixosSystem rec {
-          nixpkgsPatcher.nixpkgs = nixpkgs;
-          nixpkgsPatcher.patches =
-            pkgs:
-            with pkgs;
-            [
-              (fetchurl {
-                name = "add-ensure-classes.patch";
-                url = "https://github.com/NixOS/nixpkgs/pull/524127.diff";
-                hash = "sha256-3n1i2rBm5qygoOkLNzihIJ0uYR6QdTLPKcukEJVl7BQ=";
-              })
-            ]
-            ++ extraPatches;
-          specialArgs = { inherit inputs system hostname; };
+          nixpkgsPatcher = { inherit nixpkgs patches; };
+          specialArgs = {
+            inherit inputs system hostname;
+            lib = import ./lib/default.nix {
+              inherit pkgs;
+              inherit (pkgs) lib;
+            };
+          };
           modules = [
             ./hosts/${hostname}
             ./hosts/${hostname}/hardware-configuration.nix
@@ -73,7 +99,12 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = specialArgs;
+                extraSpecialArgs = specialArgs // {
+                  lib = import ./lib/default.nix {
+                    inherit pkgs;
+                    inherit (home-manager) lib;
+                  };
+                };
                 users.ben = import ./home/ben;
               };
             }
