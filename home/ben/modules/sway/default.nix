@@ -5,10 +5,11 @@
     ./colorUtil.nix
     ./colors.nix
     ./consts.nix
+    ./layouts.nix
+    ./misc.nix
     ./scripts.nix
     ./utils.nix
     ./windows.nix
-    ./misc.nix
 
     ./bindings
   ];
