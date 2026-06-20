@@ -1,6 +1,6 @@
 {
   imports = [
     ./modules
-    ./generic
+    ./generic/home.nix
   ];
 }
