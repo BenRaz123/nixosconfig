@@ -23,14 +23,6 @@
       url = "github:numtide/flake-utils";
     };
 
-    main-hm-configuration = {
-      url = "github:benraz123/home-manager-config";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixvim.follows = "nixvim";
-      inputs.home-manager.follows = "home-manager";
-      inputs.flake-utils.follows = "flake-utils";
-    };
-
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
   };
 
@@ -109,6 +101,12 @@
             config.allowInsecurePredicate = pkg: builtins.elem (lib.getName pkg) [ "broadcom-sta" ];
           };
         };
+      };
+
+      homeConfigurations.ben = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs { };
+        extraSpecialArgs = { inherit inputs; };
+        modules = [ ./home/ben/generic/home.nix ];
       };
     }
     // flake-utils.lib.eachDefaultSystem (
