@@ -3,6 +3,7 @@
   config,
   keys,
   pkgs,
+  lib,
   scripts,
   utils,
   ...
@@ -32,7 +33,6 @@ let
   inherit (utils)
     percent
     shell
-    use
     ;
 
   font = config.sysFonts.normal;
@@ -46,7 +46,7 @@ in
     {
       extraConfig = "pango_markup enabled";
       statusCommand = mkStatusCommand {
-        main = "${shell "whoami"}@${shell <| use "hostname"}";
+        main = "${shell "whoami"}@${shell <| lib.run pkgs.hostname}";
         audio = shell "pactl get-default-sink";
         kbd = shell getKB;
         vol = shell getVol;

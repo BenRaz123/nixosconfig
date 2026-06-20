@@ -1,6 +1,6 @@
-{ colorUtil, ... }:
+{ lib, ... }:
 let
-  inherit (colorUtil)
+  inherit (lib.colorUtil)
     darkenBy
     ;
 in

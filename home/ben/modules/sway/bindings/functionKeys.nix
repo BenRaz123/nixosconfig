@@ -1,12 +1,13 @@
 {
   lib,
+  pkgs,
   scripts,
   utils,
   ...
 }:
 let
-  inherit (utils)
-    use
+  inherit (lib)
+    run
     ;
 
   inherit (scripts)
@@ -19,7 +20,7 @@ let
 
   k = n: "${fnKey}+${toString (startOfNumbers + n)}";
 
-  f = n: "exec ${use "bash"} -c '${use "wtype"} -P F${toString n}; ${notify "F${toString n}"}'";
+  f = n: "exec ${run pkgs.bash} -c '${run pkgs.wtype} -P F${toString n}; ${notify "F${toString n}"}'";
 
   fns =
     range:

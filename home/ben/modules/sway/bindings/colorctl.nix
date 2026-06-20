@@ -8,7 +8,6 @@
 let
   inherit (utils)
     shell
-    use
     ;
 
   inherit (keys)

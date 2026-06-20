@@ -7,6 +7,10 @@
   ...
 }:
 let
+  inherit (lib)
+    run
+    ;
+
   inherit (keys)
     mod
     ;
@@ -20,7 +24,6 @@ let
   inherit (utils)
     shell
     symAt
-    use
     ;
 
   inherit (pkgs)
@@ -36,7 +39,7 @@ let
       player ? null,
     }:
     let
-      cmd = if player != null then "${use "playerctl"} -p ${player}" else "$(${getPlayerctlCommand})";
+      cmd = if player != null then "${run pkgs.playerctl} -p ${player}" else "$(${getPlayerctlCommand})";
     in
     lib.strings.trim ''
       $({
@@ -184,7 +187,7 @@ let
 
   getPlayerctlCommand = ''
     {
-    playerCtl=${use "playerctl"}
+    playerCtl=${run pkgs.playerctl}
     selPlayer=${getPlayerFile}
 
     if [[ "$selPlayer" == "${anyPlayer}" ]]; then
@@ -256,7 +259,7 @@ let
       while read -r player; do
         playing="(${pname}/${status}$([[ "$player" == "$origPlayer" ]] && echo "/*")) ${title}${author}"
         menu["$playing"]="$player"
-      done < <(${use "playerctl"} --list-all)
+      done < <(${run pkgs.playerctl} --list-all)
       selection="$(
         printf '%s\n' "''${!menu[@]}" \
           | sort \
@@ -288,8 +291,8 @@ in
     "${mod}+Shift+XF86AudioPlay" = "exec ${info}";
     "${mod}+apostrophe" = "exec ${info}";
 
-    XF86MonBrightnessUp = "exec ${use "bash"} -c '${use "brightnessctl"} set 2%+; ${notify "Brightness Raised: ${shell getBrt}%"}'";
-    XF86MonBrightnessDown = "exec ${use "bash"} -c '${use "brightnessctl"} set 2%-; ${notify "Brightness Lowered: ${shell getBrt}%"}'";
+    XF86MonBrightnessUp = "exec ${run pkgs.bash} -c '${run pkgs.brightnessctl} set 2%+; ${notify "Brightness Raised: ${shell getBrt}%"}'";
+    XF86MonBrightnessDown = "exec ${run pkgs.bash} -c '${run pkgs.brightnessctl} set 2%-; ${notify "Brightness Lowered: ${shell getBrt}%"}'";
 
     XF86AudioMute = "exec pactl set-sink-mute \\@DEFAULT_SINK@ toggle";
     XF86AudioLowerVolume = "exec pactl set-sink-volume \\@DEFAULT_SINK@ -5%";

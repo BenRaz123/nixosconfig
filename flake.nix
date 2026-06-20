@@ -36,29 +36,22 @@
       ...
     }:
     let
-      patches = (
-        pkgs: with pkgs; [
-          (fetchurl {
-            name = "add-ensure-classes.patch";
-            url = "https://github.com/NixOS/nixpkgs/pull/524127.diff";
-            hash = "sha256-3n1i2rBm5qygoOkLNzihIJ0uYR6QdTLPKcukEJVl7BQ=";
-          })
-        ]
-      );
+      mkExtendedLib =
+        args@{ pkgs, lib, }:
+        args.lib.extend (self: super: import ./lib/default.nix { inherit (args) pkgs; lib = self; });
 
       mkPatched =
         {
           system,
-          extraPatches ? [ ],
+          patches,
         }:
         let
-          patches = patches ++ extraPatches;
           patchedNixpkgs = nixpkgs-patcher.lib.patchNixpkgs {
             inherit
               inputs
               system
-              patches
               nixpkgs
+              patches
               ;
           };
         in
@@ -73,17 +66,26 @@
           extraPatches ? [ ],
         }:
         let
-          pkgs = mkPatched { inherit system extraPatches; };
-        in
-        nixpkgs-patcher.lib.nixosSystem rec {
-          nixpkgsPatcher = { inherit nixpkgs patches; };
-          specialArgs = {
-            inherit inputs system hostname;
-            lib = import ./lib/default.nix {
+          patches = (
+            pkgs: with pkgs; [
+              (fetchurl {
+                name = "add-ensure-classes.patch";
+                url = "https://github.com/NixOS/nixpkgs/pull/524127.diff";
+                hash = "sha256-3n1i2rBm5qygoOkLNzihIJ0uYR6QdTLPKcukEJVl7BQ=";
+              })
+            ] ++ extraPatches
+          );
+
+          pkgs = mkPatched { inherit system patches; };
+
+          lib = mkExtendedLib { 
               inherit pkgs;
               inherit (pkgs) lib;
             };
-          };
+        in
+        nixpkgs-patcher.lib.nixosSystem rec {
+          nixpkgsPatcher = { inherit nixpkgs patches; };
+          specialArgs = { inherit inputs system hostname lib; };
           modules = [
             ./hosts/${hostname}
             ./hosts/${hostname}/hardware-configuration.nix
@@ -99,12 +101,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = specialArgs // {
-                  lib = import ./lib/default.nix {
-                    inherit pkgs;
-                    inherit (home-manager) lib;
-                  };
-                };
+                extraSpecialArgs = specialArgs // { lib = lib.extend (_: _: home-manager.lib); };
                 users.ben = import ./home/ben;
               };
             }
@@ -144,7 +141,13 @@
 
         packages.homeConfigurations.ben = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          extraSpecialArgs = { inherit inputs; };
+          extraSpecialArgs = {
+            inherit inputs;
+            lib =  mkExtendedLib{
+              inherit pkgs;
+              inherit (home-manager) lib;
+            };
+          };
           modules = [ ./home/ben/generic/home.nix ];
         };
       }

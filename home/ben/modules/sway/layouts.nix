@@ -1,7 +1,11 @@
-{ pkgs, scripts, ... }:
+{ pkgs, lib, scripts, ... }:
 let
   inherit (scripts)
     notify
+    ;
+
+  inherit (lib)
+    run
     ;
 
   notify-layout = pkgs.writeShellApplication {
@@ -25,7 +29,7 @@ in
   systemd.user.services.notify-layout = {
     Unit.Description = "notify of changes to the keyboard layout";
     Unit.PartOf = "sway-session.target";
-    Service.ExecStart = "${notify-layout}/bin/notify-layout";
+    Service.ExecStart = run notify-layout;
     Install.WantedBy = [ "sway-session.target" ];
   };
 

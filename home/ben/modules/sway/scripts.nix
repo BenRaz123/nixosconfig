@@ -11,6 +11,10 @@ let
     BAT
     ;
 
+  inherit (lib)
+    run
+    ;
+
   inherit (pkgs)
     writeShellScript
     ;
@@ -20,7 +24,6 @@ let
     preparePangoString
     releaseLock
     settingsToCLI
-    use
     writeLockedScript
     ;
 in
@@ -59,33 +62,33 @@ in
         ${post}
       '';
 
-    term = "${use "ghostty"} +new-window -e ${writeShellScript "tmux new window" ''
-      readonly TMUX=${use "tmux"}
+    term = "${run pkgs.ghostty} +new-window -e ${writeShellScript "tmux new window" ''
+      readonly TMUX=${run pkgs.tmux}
       $TMUX a || $TMUX
     ''}";
 
     menuRun = ''${pkgs.bemenu}/bin/bemenu-run ${settingsToCLI config.programs.bemenu.settings} -p "run>>"'';
 
-    menu = "${use "bemenu"} ${settingsToCLI config.programs.bemenu.settings}";
+    menu = "${run pkgs.bemenu} ${settingsToCLI config.programs.bemenu.settings}";
 
-    desktopMenu = ''${use "j4-dmenu-desktop"} --dmenu="${menu}"'';
+    desktopMenu = ''${run pkgs.j4-dmenu-desktop} --dmenu="${menu}"'';
 
     browser = "qutebrowser";
 
     getBrt = writeShellScript "get brightness" ''
-      echo "scale=0; ($(${use "brightnessctl"} get)*100)/500" | ${use "bc"}
+      echo "scale=0; ($(${run pkgs.brightnessctl} get)*100)/500" | ${run pkgs.bc}
     '';
 
     getKB = writeShellScript "getKB" ''
       swaymsg -t get_inputs \
-        | ${use "jq"} '.[].xkb_active_layout_name | select(. != null)' \
+        | ${run pkgs.jq} '.[].xkb_active_layout_name | select(. != null)' \
         | sort -u \
         | sed 's/"//g'
     '';
 
     getVol = writeShellScript "getVol" ''
       pactl -f json list sinks \
-        | ${use "jq"} '.[] 
+        | ${run pkgs.jq} '.[] 
           | select(.name == "'"$(pactl get-default-sink)"'") 
           | .volume 
           | .[].value_percent' \
@@ -95,13 +98,13 @@ in
     '';
 
     getBat = writeShellScript "get battery" ''
-      readonly RG=${pkgs.ripgrep}/bin/rg
+      readonly RG=${run pkgs.ripgrep}
       upower -i ${BAT} \
         | $RG "percentage" \
         | $RG -o '([0-9]+)(?:\.?[0-9]+)' -r '$1'
     '';
     getBatCharging = writeShellScript "get charging state" ''
-      readonly RG=${pkgs.ripgrep}/bin/rg
+      readonly RG=${run pkgs.ripgrep}
       readonly info=$(upower -i ${BAT} \
         | $RG "state")
       if echo "$info" | $RG -q "discharging"; then
@@ -150,10 +153,10 @@ in
       Reboot = "reboot";
       Suspend = "systemctl suspend";
       "Power Off" = "poweroff";
-      Sleep = "systemctl sleep; ${use "swaylock"}";
+      Sleep = "systemctl sleep; ${run pkgs.swaylock}";
     };
 
-    notify = msg: ''${use "zenity"} --notification --text "${msg}"'';
+    notify = msg: ''${run pkgs.zenity} --notification --text "${msg}"'';
 
     mkStatusCommand =
       args@{ main, ... }:

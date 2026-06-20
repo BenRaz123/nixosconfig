@@ -14,8 +14,6 @@
     rec {
       symAt = codepoint: builtins.fromJSON ''"\u${codepoint}"'';
 
-      use = cmd: "${pkgs.${cmd}}/bin/${cmd}";
-
       shell = s: "$(${toString s})";
 
       settingsToCLI =
