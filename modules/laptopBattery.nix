@@ -6,6 +6,21 @@
 }:
 let
   cfg = config.laptopBattery;
+  setBatCap = pkgs.writeShellApplication {
+    name = "set-battery-capacity";
+    runtimeInputs = with pkgs; [ coreutils ];
+    runtimeEnv.BAT = "/sys/class/power_supply/${cfg.batteryName}/charge_control_end_threshold";
+    text = ''
+      case "$1" in
+        80|100) ;;
+        *)
+          echo "[WARN] dont set different from 80 or 100" 
+          ;;
+      esac
+
+      echo "$1" >"$BAT"
+    '';
+  };
 in
 {
   options = {
@@ -38,5 +53,21 @@ in
 
     services.auto-cpufreq.enable = false;
     services.power-profiles-daemon.enable = false;
+
+    systemd.services."set-battery-capacity@" = {
+      description = "set battery capacity to %I%%";
+      script = "${lib.run setBatCap} %i";
+    };
+
+    systemd.timers = {
+      "set-battery-capacity@80" = {
+        description = "Set battery capacity down after the morning";
+        timerConfig.OnCalendar = "*-*-* 11:00:00";
+      };
+      "set-battery-capacity@100" = {
+        description = "Set battery capacity up before the morning during weekdays";
+        timerConfig.OnCalendar = "Mon..Fri *-*-* 03:00:00";
+      };
+    };
   };
 }

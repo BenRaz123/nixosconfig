@@ -104,6 +104,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    ripgrep
     prismlauncher
     fractal
     zathura

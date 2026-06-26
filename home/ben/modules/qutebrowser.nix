@@ -49,6 +49,7 @@ in
         "mat-icon"
         ''[role="img"]''
         ''[data-button-type="ICON"]''
+        ''[data-cds="Icon"]''
         "span.google-symbols"
         "span.material-symbols-outlined"
         ".view-line > span"
