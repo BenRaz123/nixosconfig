@@ -32,6 +32,7 @@ in
       osopt = "https://search.nixos.org/options?channel=unstable&query={}";
       pkgs = "https://search.nixos.org/packages?channel=unstable&query={}";
       hm = "https://home-manager-options.extranix.com/?release=master&query={}";
+      mdn = "https://developer.mozilla.org/en-US/search?q={}";
     };
     settings = rec {
       url.default_page = "https://google.com";
