@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   sysFonts.mono = {
-    pkg = pkgs.nerd-fonts.cousine;
-    name = "Cousine Nerd Font";
+    pkg = pkgs.nerd-fonts.adwaita-mono;
+    name = "AdwaitaMono Nerd Font";
   };
 }

@@ -1,4 +1,9 @@
-{ pkgs, lib, scripts, ... }:
+{
+  pkgs,
+  lib,
+  scripts,
+  ...
+}:
 let
   inherit (scripts)
     notify

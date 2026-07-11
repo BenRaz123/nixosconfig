@@ -7,6 +7,28 @@ let
   inherit (pkgs) lib;
 in
 {
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 4d --keep 3";
+    flake = "/home/ben/.config/nixos"; # sets NH_OS_FLAKE variable for you
+  };
+
+  symlinks = [
+    {
+      source = "/home/ben/Music";
+      destination = "/m";
+    }
+    {
+      source = "/home/ben/work";
+      destination = "/w";
+    }
+    {
+      source = "/home/ben/.config";
+      destination = "/c";
+    }
+  ];
+
   xdg.portal.config.sway.default = lib.mkForce "wlr";
   xdg.portal.config.sway."org.freedesktop.portal.OpenURI.OpenURI" = "wlr";
 

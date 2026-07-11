@@ -26,6 +26,7 @@ let
     getBatCharging
     getBrt
     getKB
+    getUptime
     getVol
     mkStatusCommand
     ;
@@ -71,6 +72,7 @@ in
            ''
          }${shell getBat}%";
         time = "${shell "date -R"} ${shell "date -I"}";
+        up = shell (lib.run getUptime);
       };
       fonts = {
         names = [ font.name ];

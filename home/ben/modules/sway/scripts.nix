@@ -15,6 +15,10 @@ let
     run
     ;
 
+  inherit (lib.awk)
+    writeAwkApplication
+    ;
+
   inherit (pkgs)
     writeShellScript
     ;
@@ -205,5 +209,28 @@ in
         echo ]
       ''
       |> toString;
+    getUptime = let
+      formatUptime = writeAwkApplication "formatUptime" {
+        text = /* awk */ ''
+          match($0, /up[ \t,]*([0-9]+)[ \t,]*days[ \t,]*([0-9]+):([0-9]+)/, m) {
+            print m[1] "d" m[2] "h" m[3] "m";
+          } 
+          match($0, /up[ \t,]*([0-9]+):([0-9]+)/, m) {
+            print m[1] "h" m[2] "m";
+          } 
+        '';
+      };
+    in
+    pkgs.writeShellApplication {
+      name = "get-uptime";
+      runtimeInputs = with pkgs; [
+        procps
+        formatUptime
+      ];
+      text = ''
+        uptime | formatUptime
+      '';
+    };
   };
+
 }

@@ -7,6 +7,7 @@
   programs.nixvim.plugins.lsp = {
     enable = true;
     servers = {
+      cssls.enable = true;
       phpactor.enable = true;
       html.enable = true;
       ts_ls.enable = true;

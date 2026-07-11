@@ -37,8 +37,14 @@
     }:
     let
       mkExtendedLib =
-        args@{ pkgs, lib, }:
-        args.lib.extend (self: super: import ./lib/default.nix { inherit (args) pkgs; lib = self; });
+        args@{ pkgs, lib }:
+        args.lib.extend (
+          self: super:
+          import ./lib/default.nix {
+            inherit (args) pkgs;
+            lib = self;
+          }
+        );
 
       mkPatched =
         {
@@ -67,32 +73,43 @@
         }:
         let
           patches = (
-            pkgs: with pkgs; [
+            pkgs:
+            with pkgs;
+            [
               (fetchurl {
                 name = "add-ensure-classes.patch";
                 url = "https://github.com/NixOS/nixpkgs/pull/524127.diff";
-                hash = "sha256-3n1i2rBm5qygoOkLNzihIJ0uYR6QdTLPKcukEJVl7BQ=";
+                hash = "sha256-6uPAsGyimg2Cbm0rXkMFGw32UxnFEpXuAxWm2RQ1sRw=";
               })
-            ] ++ extraPatches
+            ]
+            ++ extraPatches
           );
 
           pkgs = mkPatched { inherit system patches; };
 
-          lib = mkExtendedLib { 
-              inherit pkgs;
-              inherit (pkgs) lib;
-            };
+          lib = mkExtendedLib {
+            inherit pkgs;
+            inherit (pkgs) lib;
+          };
         in
         nixpkgs-patcher.lib.nixosSystem rec {
           nixpkgsPatcher = { inherit nixpkgs patches; };
-          specialArgs = { inherit inputs system hostname lib; };
+          specialArgs = {
+            inherit
+              inputs
+              system
+              hostname
+              lib
+              ;
+          };
           modules = [
             ./hosts/${hostname}
             ./hosts/${hostname}/hardware-configuration.nix
             ./modules/common.nix
-            ./modules/laptopBattery.nix
             ./modules/flatpak.nix
+            ./modules/laptopBattery.nix
             ./modules/musicSync.nix
+            ./modules/symlinks.nix
 
             extraPkgsSettings
 
@@ -101,7 +118,9 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = specialArgs // { lib = lib.extend (_: _: home-manager.lib); };
+                extraSpecialArgs = specialArgs // {
+                  lib = lib.extend (_: _: home-manager.lib);
+                };
                 users.ben = import ./home/ben;
               };
             }
@@ -143,7 +162,7 @@
           inherit pkgs;
           extraSpecialArgs = {
             inherit inputs;
-            lib =  mkExtendedLib{
+            lib = mkExtendedLib {
               inherit pkgs;
               inherit (home-manager) lib;
             };

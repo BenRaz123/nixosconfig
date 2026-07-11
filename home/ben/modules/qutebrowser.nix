@@ -28,6 +28,7 @@ in
     searchEngines = {
       DEFAULT = "https://google.com/search?q={}";
 
+      ama = "https://amazon.com/s?k={}";
       noogle = "https://noogle.dev/q/?term={}";
       osopt = "https://search.nixos.org/options?channel=unstable&query={}";
       pkgs = "https://search.nixos.org/packages?channel=unstable&query={}";

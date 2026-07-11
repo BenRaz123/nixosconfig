@@ -41,8 +41,14 @@ in
     extraConfig = ''
       bind Enter popup
       bind T set -g status
-      set -g status-style fg=white,bg=black
       bind r source-file ~/.config/tmux/tmux.conf \; display "<<#[bold]Reload#[nobold]>>"
+
+      set -g status-style "bg=default,fg=default"
+      set -g status-left-style bg=default
+      set -g status-right-style bg=default
+      set -g window-status-style bg=default
+      set -g window-status-current-style bg=default
+
       set -g status-left-length 0
       set -g status-left ""
       set -g window-status-format "[#I]"

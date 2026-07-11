@@ -63,12 +63,12 @@ in
       "set-battery-capacity@80" = {
         description = "Set battery capacity down after the morning";
         timerConfig.OnCalendar = "*-*-* 11:00:00";
-        wantedBy = ["timers.target"];
+        wantedBy = [ "timers.target" ];
       };
       "set-battery-capacity@100" = {
         description = "Set battery capacity up before the morning during weekdays";
         timerConfig.OnCalendar = "Mon..Fri *-*-* 03:00:00";
-        wantedBy = ["timers.target"];
+        wantedBy = [ "timers.target" ];
       };
     };
   };
