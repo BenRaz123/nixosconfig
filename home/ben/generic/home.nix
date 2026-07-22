@@ -1,6 +1,5 @@
 {
-  config,
-  pkgs,
+  config, pkgs,
   lib,
   osConfig ? null,
   inputs ? null,
@@ -59,14 +58,17 @@ in
         "sessionVariables"
         "TZDIR"
       ];
+
+      nvim = lib.getExe config.programs.nixvim.build.package;
     in
-    {
+    rec {
       inherit (config.settings)
         TZ
         ;
-      MANPAGER = "nvim +Man!";
+      MANPAGER = "${nvim} +Man!";
+      EDITOR = lib.mkForce nvim;
+      VISUAL = EDITOR;
       TZDIR = if osTZDIR != null then osTZDIR else "/usr/share/zoneinfo";
-      EDITOR = "nvim";
       X = 5;
     };
 }

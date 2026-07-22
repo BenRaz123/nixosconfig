@@ -1,42 +1,42 @@
 {
   hardware.printers.ensureClasses = {
     # combined categories
-    "bw-laser" = {
+    bw-laser = {
       description = "Black and white laser printer";
     };
-    "bw-inkjet" = {
+    bw-inkjet = {
       description = "Black and white inkjet printer";
     };
-    "color-laser" = {
+    color-laser = {
       description = "Color laser printer";
     };
-    "color-inkjet" = {
+    color-inkjet = {
       description = "Color inkjet printer";
     };
 
     # singular categories
-    "bw" = {
+    bw = {
       description = "Black and white printer";
       classes = [
         "bw-laser"
         "bw-inkjet"
       ];
     };
-    "color" = {
+    color = {
       description = "Color printer";
       classes = [
         "color-laser"
         "color-inkjet"
       ];
     };
-    "laser" = {
+    laser = {
       description = "Laser printer";
       classes = [
         "bw-laser"
         "color-laser"
       ];
     };
-    "inkjet" = {
+    inkjet = {
       description = "Inkjet printer";
       classes = [
         "bw-inkjet"

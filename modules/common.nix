@@ -7,11 +7,18 @@ let
   inherit (pkgs) lib;
 in
 {
+  security.wrappers.wshowkeys = {
+    source = lib.getExe pkgs.wshowkeys;
+    owner = "root";
+    group = "root";
+    setuid = true;
+  };
+
   programs.nh = {
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 4d --keep 3";
-    flake = "/home/ben/.config/nixos"; # sets NH_OS_FLAKE variable for you
+    flake = "/c/nixos"; # sets NH_OS_FLAKE variable for you
   };
 
   symlinks = [
@@ -136,7 +143,7 @@ in
     git
     home-manager
     mako
-    neovim
+    #neovim
     sway
     wget
     wl-clipboard

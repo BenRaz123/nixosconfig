@@ -60,6 +60,8 @@ in
       bind j select-pane -D
       bind k select-pane -U
       bind l select-pane -R
+
+      set -g renumber-windows on
     ''
     + termFeatures;
   };

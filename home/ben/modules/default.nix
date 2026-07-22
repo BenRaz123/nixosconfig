@@ -12,6 +12,7 @@
     ./sysFonts.nix
 
     ./fonts
+    ./shellScripts
     ./sway
   ];
 }

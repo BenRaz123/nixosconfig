@@ -298,7 +298,7 @@ in
     XF86AudioLowerVolume = "exec pactl set-sink-volume \\@DEFAULT_SINK@ -5%";
     "${mod}+minus" = XF86AudioLowerVolume;
     XF86AudioRaiseVolume = "exec pactl set-sink-volume \\@DEFAULT_SINK@ +5%";
-    "${mod}+equal" =  XF86AudioRaiseVolume;
+    "${mod}+equal" = XF86AudioRaiseVolume;
     XF86AudioMicMute = "exec pactl set-source-mute \\@DEFAULT_SOURCE@ toggle";
   };
 }
