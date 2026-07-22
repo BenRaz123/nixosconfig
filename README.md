@@ -18,7 +18,7 @@ It is structured as a flake.
 
 NixOS Configuration is at `.#nixosConfigurations.<hostname>`. Activate it with `nixos-rebuild test --sudo --flake .#hostname`
 
-## Generic Home Manager
+### Generic Home Manager
 
 Used to be stored at [benraz123/home-manager-config](https://github.com/benraz123/home-manager-config). Is now a flake output, specifically, `.#packages.<system>.homeConfigurations.ben`. Activate it as  follows:
 
