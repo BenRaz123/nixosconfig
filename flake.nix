@@ -162,12 +162,12 @@
 
         packages.homeConfigurations.ben = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
+          lib = mkExtendedLib {
+            inherit pkgs;
+            inherit (pkgs) lib;
+          };
           extraSpecialArgs = {
-            inherit inputs;
-            lib = mkExtendedLib {
-              inherit pkgs;
-              inherit (home-manager) lib;
-            };
+            inherit inputs system;
           };
           modules = [ ./home/ben/generic/home.nix ];
         };
