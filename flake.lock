@@ -126,6 +126,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-yt-dlp": {
+      "locked": {
+        "lastModified": 1783977553,
+        "narHash": "sha256-vTYoaxOWHur3Vj1YVjvx7x965CL6rKbXSXKDucJoOAk=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "5b86c8f34539e4142c692f09480228fe6ebeb8c4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -155,6 +171,7 @@
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-patcher": "nixpkgs-patcher",
+        "nixpkgs-yt-dlp": "nixpkgs-yt-dlp",
         "nixvim": "nixvim"
       }
     },
