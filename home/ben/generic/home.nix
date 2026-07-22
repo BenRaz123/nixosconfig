@@ -20,6 +20,7 @@ in
     nixvim.homeModules.nixvim
     ./settings
     ./programs
+    ./shellScripts
   ];
 
   home.username = lib.mkDefault config.settings.USER;
